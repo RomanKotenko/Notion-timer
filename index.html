@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Countdown Timer</title>
-    <!-- Подключаем только Inter Semi Bold (600) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -15,28 +14,74 @@
             --font-main: 'Inter', sans-serif;
             --final-message-color: #4CAF50;
         }
-        body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: var(--bg-color); box-sizing: border-box; font-family: var(--font-main); }
-        #timer-wrapper { display: flex; gap: 15px; text-align: center; }
-        .time-block { 
-            background-color: var(--block-color); 
-            padding: 20px; 
-            border-radius: 12px; 
-            min-width: 90px; 
-            border: 1px solid var(--number-color); /* Лёгкий контур */
-            transition: transform 0.2s ease; 
+        body { margin: 0; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; background-color: var(--bg-color); box-sizing: border-box; font-family: var(--font-main); }
+        #timer-title {
+            font-family: var(--font-main);
+            font-weight: 600;
+            font-size: 2.5em;
+            color: var(--number-color);
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+        #timer-wrapper { display: flex; align-items: flex-end; gap: 0; text-align: center; }
+        .time-block {
+            background-color: var(--block-color);
+            padding: 20px;
+            border-radius: 12px;
+            min-width: 90px;
+            transition: transform 0.2s ease;
+            margin: 0 0;
         }
         .time-block:hover { transform: translateY(-5px); }
-        .numbers { font-family: var(--font-main); font-weight: 600; font-size: 3.5em; color: var(--number-color); line-height: 1.1; }
-        .label { font-family: var(--font-main); font-weight: 600; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; color: var(--label-color); }
-        #final-message { font-family: var(--font-main); font-size: 2.5em; color: var(--final-message-color); font-weight: 600; }
+        .numbers {
+            font-family: var(--font-main);
+            font-weight: 600;
+            font-size: 3.5em;
+            color: var(--number-color);
+            line-height: 1.1;
+        }
+        .label {
+            font-family: var(--font-main);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 2px;
+            color: var(--label-color);
+            margin-top: 5px;
+        }
+        .colon {
+            font-size: 3.5em;
+            color: var(--number-color);
+            font-weight: 600;
+            margin: 0 10px;
+            user-select: none;
+        }
+        #final-message {
+            font-family: var(--font-main);
+            font-size: 2.5em;
+            color: var(--final-message-color);
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
 
+<div id="timer-title">Заголовок</div>
 <div id="timer-wrapper">
-    <div class="time-block"><div id="days" class="numbers">0</div><div class="label">Дни</div></div>
-    <div class="time-block"><div id="hours" class="numbers">0</div><div class="label">Часы</div></div>
-    <div class="time-block"><div id="minutes" class="numbers">0</div><div class="label">Минуты</div></div>
+    <div class="time-block">
+        <div id="days" class="numbers">0</div>
+        <div class="label">Дни</div>
+    </div>
+    <span class="colon">:</span>
+    <div class="time-block">
+        <div id="hours" class="numbers">0</div>
+        <div class="label">Часы</div>
+    </div>
+    <span class="colon">:</span>
+    <div class="time-block">
+        <div id="minutes" class="numbers">0</div>
+        <div class="label">Минуты</div>
+    </div>
 </div>
 <div id="final-message" style="display:none;">Время вышло! 🎉</div>
 
@@ -45,15 +90,20 @@
     const targetDateStr = params.get('date') || '2025-10-15T00:00:00';
     const targetDate = new Date(targetDateStr);
     const finalMessageText = params.get('message') || 'Время вышло! 🎉';
-    const bgColor = params.get('bgcolor'), blockColor = params.get('blockcolor'), numberColor = params.get('numbercolor'), labelColor = params.get('labelcolor');
+    const bgColor = params.get('bgcolor'), blockColor = params.get('blockcolor'), numberColor = params.get('numbercolor'), labelColor = params.get('labelcolor'), title = params.get('title');
     const root = document.documentElement;
     if (bgColor) root.style.setProperty('--bg-color', `#${bgColor}`);
     if (blockColor) root.style.setProperty('--block-color', `#${blockColor}`);
     if (numberColor) root.style.setProperty('--number-color', `#${numberColor}`);
     if (labelColor) root.style.setProperty('--label-color', `#${labelColor}`);
-    
-    const daysEl = document.getElementById("days"), hoursEl = document.getElementById("hours"), minutesEl = document.getElementById("minutes"), timerWrapper = document.getElementById("timer-wrapper"), finalMessage = document.getElementById("final-message");
-    
+    if (title) document.getElementById('timer-title').textContent = title;
+
+    const daysEl = document.getElementById("days"),
+          hoursEl = document.getElementById("hours"),
+          minutesEl = document.getElementById("minutes"),
+          timerWrapper = document.getElementById("timer-wrapper"),
+          finalMessage = document.getElementById("final-message");
+
     finalMessage.textContent = finalMessageText;
     const timer = setInterval(function() {
         const now = new Date().getTime(), diff = targetDate - now;
@@ -63,8 +113,10 @@
             finalMessage.style.display = 'block';
             return;
         }
-        let days = Math.floor(diff / (1000 * 60 * 60 * 24)), hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        
+        let days = Math.floor(diff / (1000 * 60 * 60 * 24)),
+            hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+            minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
         daysEl.innerHTML = days;
         hoursEl.innerHTML = hours < 10 ? '0' + hours : hours;
         minutesEl.innerHTML = minutes < 10 ? '0' + minutes : minutes;
