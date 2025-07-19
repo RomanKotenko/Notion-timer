@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;900&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <title>Countdown Timer</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --block-color: #4D4D4D; /* 70% черный цвет для блоков */
+            --number-color: #ffffff;
+            --label-color: #cccccc; /* Цвет подписей чуть светлее для контраста */
+            --font-numbers: 'Inter', sans-serif;
+            --font-labels: 'Roboto', sans-serif;
+            --final-message-color: #4CAF50;
+        }
+        body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: var(--bg-color); box-sizing: border-box; font-family: var(--font-labels); }
+        #timer-wrapper { display: flex; gap: 15px; text-align: center; }
+        .time-block { background-color: var(--block-color); padding: 20px; border-radius: 12px; min-width: 90px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); transition: transform 0.2s ease; }
+        .time-block:hover { transform: translateY(-5px); }
+        .numbers { font-family: var(--font-numbers); font-weight: 900; font-size: 3.5em; color: var(--number-color); line-height: 1.1; }
+        .label { font-family: var(--font-labels); text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; color: var(--label-color); }
+        #final-message { font-family: var(--font-numbers); font-size: 2.5em; color: var(--final-message-color); font-weight: 700; }
+    </style>
+</head>
+<body>
+
+<div id="timer-wrapper">
+    <div class="time-block"><div id="days" class="numbers">0</div><div class="label">days</div></div>
+    <div class="time-block"><div id="hours" class="numbers">0</div><div class="label">hours</div></div>
+    <div class="time-block"><div id="minutes" class="numbers">0</div><div class="label">minutes</div></div>
+    <div class="time-block"><div id="seconds" class="numbers">0</div><div class="label">seconds</div></div>
+</div>
+<div id="final-message" style="display:none;">Время вышло! 🎉</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const targetDateStr = params.get('date') || '2025-10-15T00:00:00';
+    const targetDate = new Date(targetDateStr);
+    const finalMessageText = params.get('message') || 'Время вышло! 🎉';
+    const bgColor = params.get('bgcolor'), blockColor = params.get('blockcolor'), numberColor = params.get('numbercolor'), labelColor = params.get('labelcolor');
+    const root = document.documentElement;
+    if (bgColor) root.style.setProperty('--bg-color', `#${bgColor}`);
+    if (blockColor) root.style.setProperty('--block-color', `#${blockColor}`);
+    if (numberColor) root.style.setProperty('--number-color', `#${numberColor}`);
+    if (labelColor) root.style.setProperty('--label-color', `#${labelColor}`);
+    const daysEl = document.getElementById("days"), hoursEl = document.getElementById("hours"), minutesEl = document.getElementById("minutes"), secondsEl = document.getElementById("seconds"), timerWrapper = document.getElementById("timer-wrapper"), finalMessage = document.getElementById("final-message");
+    finalMessage.textContent = finalMessageText;
+    const timer = setInterval(function() {
+        const now = new Date().getTime(), diff = targetDate - now;
+        if (diff <= 0) {
+            clearInterval(timer);
+            timerWrapper.style.display = 'none';
+            finalMessage.style.display = 'block';
+            return;
+        }
+        let days = Math.floor(diff / (1000 * 60 * 60 * 24)), hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)), seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        daysEl.innerHTML = days;
+        hoursEl.innerHTML = hours < 10 ? '0' + hours : hours;
+        minutesEl.innerHTML = minutes < 10 ? '0' + minutes : minutes;
+        secondsEl.innerHTML = seconds < 10 ? '0' + seconds : seconds;
+    }, 1000);
+</script>
+</body>
+</html>
