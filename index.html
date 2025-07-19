@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html lang="ru">
+<!DOCTYPE html> <!-- Объявляет тип документа HTML5 -->
+<html lang="ru"> <!-- Открывает HTML-документ и указывает язык страницы — русский -->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Timer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8"> <!-- Устанавливает кодировку символов UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Адаптирует страницу под мобильные устройства -->
+    <title>Countdown Timer</title> <!-- Заголовок вкладки браузера -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet"> <!-- Подключает шрифт Inter с жирностью 600 -->
     <style>
-        :root {
+        :root { /* Определяет CSS-переменные для цветов и шрифта */
             --bg-color: #191919;
             --block-color: #191919;
             --number-color: #E0E0E0;
@@ -15,51 +15,51 @@
             --font-main: 'Inter', sans-serif;
             --final-message-color: #4CAF50;
         }
-        body {
-            margin: 0; padding: 10px;
-            min-height: 100vh;
-            background-color: var(--bg-color);
-            box-sizing: border-box;
-            font-family: var(--font-main);
-            display: flex; justify-content: center; align-items: flex-start;
+        body { /* Стили для всего тела страницы */
+            margin: 0; padding: 10px; /* Убирает внешние отступы и добавляет внутренний */
+            min-height: 100vh; /* Минимальная высота — 100% окна */
+            background-color: var(--bg-color); /* Цвет фона из переменной */
+            box-sizing: border-box; /* Включает в размеры padding и border */
+            font-family: var(--font-main); /* Основной шрифт */
+            display: flex; justify-content: center; align-items: flex-start; /* Центрирует контент по горизонтали, прижимает к верху */
         }
-        .timer-container {
+        .timer-container { /* Контейнер для таймера */
             display: flex;
             flex-direction: column;
             align-items: flex-start; /* Выравнивание по левому краю */
         }
-        #timer-title {
+        #timer-title { /* Стили для заголовка таймера */
             font-family: var(--font-main);
             font-weight: 600;
             font-size: 2.5em;
             color: var(--number-color);
-            margin-bottom: 1px;   /* Меньше отступ */
+            margin-bottom: 1px;   /* Маленький отступ снизу */
             letter-spacing: 1px;
-            text-align: left;      /* Явно по левому краю */
+            text-align: left;      /* Выравнивание по левому краю */
         }
-        #timer-wrapper {
+        #timer-wrapper { /* Обёртка для блоков времени */
             display: flex;
-            align-items: center; /* Для вертикального выравнивания цифр и двоеточий */
+            align-items: center; /* Вертикальное выравнивание */
             gap: 0;
             text-align: center;
         }
-        .time-block {
+        .time-block { /* Стили для каждого блока времени (дни, часы, минуты) */
             background-color: var(--block-color);
             padding: 1px;
             border-radius: 5px;
             min-width: 60px;
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease; /* Анимация при наведении */
             margin: 0 0;
         }
-        .time-block:hover { transform: translateY(-5px); }
-        .numbers {
+        .time-block:hover { transform: translateY(-5px); } /* При наведении блок немного поднимается */
+        .numbers { /* Стили для чисел времени */
             font-family: var(--font-main);
             font-weight: 600;
             font-size: 2.5em;
             color: var(--number-color);
             line-height: 1;
         }
-        .label {
+        .label { /* Стили для подписи под числами */
             font-family: var(--font-main);
             font-weight: 600;
             text-transform: uppercase;
@@ -68,18 +68,18 @@
             color: var(--label-color);
             margin-top: 5px;
         }
-        .colon {
+        .colon { /* Стили для двоеточий между блоками времени */
             display: flex;
             align-items: center;
             font-size: 3.5em;
             color: var(--colon-color);
             font-weight: 600;
             margin: 0 10px;
-            height: 100%; /* для выравнивания */
+            height: 100%; /* Для выравнивания с числами */
             line-height: 1;
-            user-select: none;
+            user-select: none; /* Запрещает выделение символа */
         }
-        #final-message {
+        #final-message { /* Стили для сообщения по окончании таймера */
             font-family: var(--font-main);
             font-size: 2.5em;
             color: var(--final-message-color);
@@ -88,63 +88,39 @@
     </style>
 </head>
 <body>
-<div class="timer-container">
-    <div id="timer-title">Обновить акции</div>
-    <div id="timer-wrapper">
-        <div class="time-block">
-            <div id="days" class="numbers">0</div>
-            <div class="label">ДНИ</div>
+<div class="timer-container"> <!-- Контейнер для всего таймера -->
+    <div id="timer-title">Обновить акции</div> <!-- Заголовок таймера -->
+    <div id="timer-wrapper"> <!-- Обёртка для блоков времени -->
+        <div class="time-block"> <!-- Блок для дней -->
+            <div id="days" class="numbers">0</div> <!-- Число дней -->
+            <div class="label">ДНИ</div> <!-- Подпись "ДНИ" -->
         </div>
-        <span class="colon">:</span>
-        <div class="time-block">
-            <div id="hours" class="numbers">0</div>
-            <div class="label">ЧАСЫ</div>
+        <span class="colon">:</span> <!-- Двоеточие между днями и часами -->
+        <div class="time-block"> <!-- Блок для часов -->
+            <div id="hours" class="numbers">0</div> <!-- Число часов -->
+            <div class="label">ЧАСЫ</div> <!-- Подпись "ЧАСЫ" -->
         </div>
-        <span class="colon">:</span>
-        <div class="time-block">
-            <div id="minutes" class="numbers">0</div>
-            <div class="label">МИНУТЫ</div>
+        <span class="colon">:</span> <!-- Двоеточие между часами и минутами -->
+        <div class="time-block"> <!-- Блок для минут -->
+            <div id="minutes" class="numbers">0</div> <!-- Число минут -->
+            <div class="label">МИНУТЫ</div> <!-- Подпись "МИНУТЫ" -->
         </div>
     </div>
-    <div id="final-message" style="display:none;">Время вышло! 🎉</div>
+    <div id="final-message" style="display:none;">Время вышло! 🎉</div> <!-- Сообщение по окончании таймера (скрыто по умолчанию) -->
 </div>
 <script>
     // Ваш JS-код таймера (можно оставить прежним)
-    const params = new URLSearchParams(window.location.search);
-    const targetDateStr = params.get('date') || '2025-10-15T00:00:00';
-    const targetDate = new Date(targetDateStr);
-    const finalMessageText = params.get('message') || 'Время вышло! 🎉';
-    const bgColor = params.get('bgcolor'), blockColor = params.get('blockcolor'), numberColor = params.get('numbercolor'), labelColor = params.get('labelcolor'), title = params.get('title');
-    const root = document.documentElement;
-    if (bgColor) root.style.setProperty('--bg-color', `#${bgColor}`);
-    if (blockColor) root.style.setProperty('--block-color', `#${blockColor}`);
-    if (numberColor) root.style.setProperty('--number-color', `#${numberColor}`);
-    if (labelColor) root.style.setProperty('--label-color', `#${labelColor}`);
-    if (title) document.getElementById('timer-title').textContent = title;
+    const params = new URLSearchParams(window.location.search); // Получает параметры из адресной строки
+    const targetDateStr = params.get('date') || '2025-10-15T00:00:00'; // Берёт дату из параметра или значение по умолчанию
+    const targetDate = new Date(targetDateStr); // Преобразует строку даты в объект Date
+    const finalMessageText = params.get('message') || 'Время вышло! 🎉'; // Получает текст сообщения из параметра или значение по умолчанию
+    const bgColor = params.get('bgcolor'), blockColor = params.get('blockcolor'), numberColor = params.get('numbercolor'), labelColor = params.get('labelcolor'), title = params.get('title'); // Получает параметры цвета и заголовка из адресной строки
+    const root = document.documentElement; // Получает корневой элемент документа (для изменения CSS-переменных)
+    if (bgColor) root.style.setProperty('--bg-color', `#${bgColor}`); // Если задан цвет фона — применяет его
+    if (blockColor) root.style.setProperty('--block-color', `#${blockColor}`); // Если задан цвет блоков — применяет его
+    if (numberColor) root.style.setProperty('--number-color', `#${numberColor}`); // Если задан цвет чисел — применяет его
+    if (labelColor) root.style.setProperty('--label-color', `#${labelColor}`); // Если задан цвет подписи — применяет его
+    if (title) document.getElementById('timer-title').textContent = title; // Если задан заголовок — меняет его
 
-    const daysEl = document.getElementById("days"),
-          hoursEl = document.getElementById("hours"),
-          minutesEl = document.getElementById("minutes"),
-          timerWrapper = document.getElementById("timer-wrapper"),
-          finalMessage = document.getElementById("final-message");
-
-    finalMessage.textContent = finalMessageText;
-    const timer = setInterval(function() {
-        const now = new Date().getTime(), diff = targetDate - now;
-        if (diff <= 0) {
-            clearInterval(timer);
-            timerWrapper.style.display = 'none';
-            finalMessage.style.display = 'block';
-            return;
-        }
-        let days = Math.floor(diff / (1000 * 60 * 60 * 24)),
-            hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-            minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-        daysEl.innerHTML = days;
-        hoursEl.innerHTML = hours < 10 ? '0' + hours : hours;
-        minutesEl.innerHTML = minutes < 10 ? '0' + minutes : minutes;
-    }, 1000);
-</script>
-</body>
-</html>
+    const daysEl = document.getElementById("days"), // Получает элемент для дней
+          hoursEl = document.getElementBy
