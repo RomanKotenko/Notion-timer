@@ -9,21 +9,40 @@
         :root {
             --bg-color: #191919;
             --block-color: #191919;
-            --number-color: #6C6C6C;
-            --label-color: #6C6C6C;
+            --number-color: #E0E0E0;
+            --label-color: #9A9A9A;
+            --colon-color: #E0E0E0;
             --font-main: 'Inter', sans-serif;
             --final-message-color: #4CAF50;
         }
-        body { margin: 0; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; background-color: var(--bg-color); box-sizing: border-box; font-family: var(--font-main); }
+        body {
+            margin: 0; padding: 20px;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            box-sizing: border-box;
+            font-family: var(--font-main);
+            display: flex; justify-content: center; align-items: flex-start;
+        }
+        .timer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Выравнивание по левому краю */
+        }
         #timer-title {
             font-family: var(--font-main);
             font-weight: 600;
             font-size: 2.5em;
             color: var(--number-color);
-            margin-bottom: 30px;
+            margin-bottom: 10px;   /* Меньше отступ */
             letter-spacing: 1px;
+            text-align: left;      /* Явно по левому краю */
         }
-        #timer-wrapper { display: flex; align-items: flex-end; gap: 0; text-align: center; }
+        #timer-wrapper {
+            display: flex;
+            align-items: center; /* Для вертикального выравнивания цифр и двоеточий */
+            gap: 0;
+            text-align: center;
+        }
         .time-block {
             background-color: var(--block-color);
             padding: 20px;
@@ -38,7 +57,7 @@
             font-weight: 600;
             font-size: 3.5em;
             color: var(--number-color);
-            line-height: 1.1;
+            line-height: 1;
         }
         .label {
             font-family: var(--font-main);
@@ -50,10 +69,14 @@
             margin-top: 5px;
         }
         .colon {
+            display: flex;
+            align-items: center;
             font-size: 3.5em;
-            color: var(--number-color);
+            color: var(--colon-color);
             font-weight: 600;
             margin: 0 10px;
+            height: 100%; /* для выравнивания */
+            line-height: 1;
             user-select: none;
         }
         #final-message {
@@ -65,27 +88,28 @@
     </style>
 </head>
 <body>
-
-<div id="timer-title">Заголовок</div>
-<div id="timer-wrapper">
-    <div class="time-block">
-        <div id="days" class="numbers">0</div>
-        <div class="label">Дни</div>
+<div class="timer-container">
+    <div id="timer-title">Заголовок</div>
+    <div id="timer-wrapper">
+        <div class="time-block">
+            <div id="days" class="numbers">0</div>
+            <div class="label">ДНИ</div>
+        </div>
+        <span class="colon">:</span>
+        <div class="time-block">
+            <div id="hours" class="numbers">0</div>
+            <div class="label">ЧАСЫ</div>
+        </div>
+        <span class="colon">:</span>
+        <div class="time-block">
+            <div id="minutes" class="numbers">0</div>
+            <div class="label">МИНУТЫ</div>
+        </div>
     </div>
-    <span class="colon">:</span>
-    <div class="time-block">
-        <div id="hours" class="numbers">0</div>
-        <div class="label">Часы</div>
-    </div>
-    <span class="colon">:</span>
-    <div class="time-block">
-        <div id="minutes" class="numbers">0</div>
-        <div class="label">Минуты</div>
-    </div>
+    <div id="final-message" style="display:none;">Время вышло! 🎉</div>
 </div>
-<div id="final-message" style="display:none;">Время вышло! 🎉</div>
-
 <script>
+    // Ваш JS-код таймера (можно оставить прежним)
     const params = new URLSearchParams(window.location.search);
     const targetDateStr = params.get('date') || '2025-10-15T00:00:00';
     const targetDate = new Date(targetDateStr);
