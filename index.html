@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;900&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <!-- Убрали Roboto из запроса -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;900&display=swap" rel="stylesheet">
     <title>Countdown Timer</title>
     <style>
         :root {
             --bg-color: #1a1a1a;
-            --block-color: #4D4D4D; /* 70% черный цвет для блоков */
+            --block-color: #4D4D4D;
             --number-color: #ffffff;
-            --label-color: #cccccc; /* Цвет подписей чуть светлее для контраста */
+            --label-color: #cccccc;
             --font-numbers: 'Inter', sans-serif;
-            --font-labels: 'Roboto', sans-serif;
+            /* Поменяли шрифт для подписей */
+            --font-labels: sans-serif;
             --final-message-color: #4CAF50;
         }
         body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: var(--bg-color); box-sizing: border-box; font-family: var(--font-labels); }
@@ -32,7 +34,7 @@
     <div class="time-block"><div id="days" class="numbers">0</div><div class="label">days</div></div>
     <div class="time-block"><div id="hours" class="numbers">0</div><div class="label">hours</div></div>
     <div class="time-block"><div id="minutes" class="numbers">0</div><div class="label">minutes</div></div>
-    <div class="time-block"><div id="seconds" class="numbers">0</div><div class="label">seconds</div></div>
+    <!-- Блок с секундами полностью удален -->
 </div>
 <div id="final-message" style="display:none;">Время вышло! 🎉</div>
 
@@ -47,7 +49,10 @@
     if (blockColor) root.style.setProperty('--block-color', `#${blockColor}`);
     if (numberColor) root.style.setProperty('--number-color', `#${numberColor}`);
     if (labelColor) root.style.setProperty('--label-color', `#${labelColor}`);
-    const daysEl = document.getElementById("days"), hoursEl = document.getElementById("hours"), minutesEl = document.getElementById("minutes"), secondsEl = document.getElementById("seconds"), timerWrapper = document.getElementById("timer-wrapper"), finalMessage = document.getElementById("final-message");
+    
+    // Убрали secondsEl
+    const daysEl = document.getElementById("days"), hoursEl = document.getElementById("hours"), minutesEl = document.getElementById("minutes"), timerWrapper = document.getElementById("timer-wrapper"), finalMessage = document.getElementById("final-message");
+    
     finalMessage.textContent = finalMessageText;
     const timer = setInterval(function() {
         const now = new Date().getTime(), diff = targetDate - now;
@@ -57,11 +62,13 @@
             finalMessage.style.display = 'block';
             return;
         }
-        let days = Math.floor(diff / (1000 * 60 * 60 * 24)), hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)), seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        let days = Math.floor(diff / (1000 * 60 * 60 * 24)), hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        // Убрали расчет секунд
+        
         daysEl.innerHTML = days;
         hoursEl.innerHTML = hours < 10 ? '0' + hours : hours;
         minutesEl.innerHTML = minutes < 10 ? '0' + minutes : minutes;
-        secondsEl.innerHTML = seconds < 10 ? '0' + seconds : seconds;
+        // Убрали обновление секунд
     }, 1000);
 </script>
 </body>
